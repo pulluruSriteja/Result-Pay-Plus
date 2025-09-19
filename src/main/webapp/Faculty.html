@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html lang="en" >
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="styleneon.css">
+
+
+
+</head>
+  
+  <button id="1" style="--clr:#0FF0FC"><span>Enquiry</span><i></i></button>
+
+  <script>
+
+  // Add a click event listener to button 2
+
+  document.getElementById("1").addEventListener("click", function() {
+
+    // Define the URL you want to redirect to after 3 seconds
+
+    var redirectTo = "AdminInterface.html";
+
+    setTimeout(function() {
+
+      window.location.href = redirectTo;
+
+    }, 1000);
+
+  });
+
+</script>  
+
+  <button id="2" style="--clr:#FF44CC"><span>Notification</span><i></i></button>
+
+  <script>
+
+  // Add a click event listener to button 2
+
+  document.getElementById("2").addEventListener("click", function() {
+
+    var redirectTo = "Messages.html";
+
+    setTimeout(function() {
+
+      window.location.href = redirectTo;
+
+    }, 1000);
+
+  });
+
+</script>  
+
+</body>
+
+</html>

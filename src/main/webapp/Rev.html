@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        body,
+        html {
+            height: 100%;
+        }
+
+        .background {
+            background-image: url('Background5.jpg');
+            height: 100%;
+            width: 100%;
+            background-size: cover;
+        }
+
+        table {
+            width: 400px;
+            margin: auto;
+        }
+
+        td {
+            padding: 10px;
+            text-align: right;
+        }
+
+        .options {
+            font-weight: bolder;
+            border-radius: 10px;
+            border: 1.5px solid #cccccc;
+            padding: 9px;
+            width: 180px;
+            height: 6px;
+        }
+
+        .button {
+            background: #EC7063;
+            border-radius: 6px;
+            font-size: 17px;
+            width: 85px;
+            cursor: pointer;
+        }
+
+        .button1 {
+            background: #EC7063;
+            border-radius: 6px;
+            font-size: 17px;
+            width: 150px;
+            cursor: pointer;
+        }
+
+        button-disabled {
+            background: #ddd;
+            cursor: not-allowed;
+        }
+
+        .selectedOption {
+            font-weight: bold;
+            margin-top: 6px;
+        }
+
+        #selectedSubjectDiv {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 500px) {
+            table {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body align="center">
+    <div class="background">
+        <form id="paymentForm" action="https://payments.campx.in/aupulse/aupulse/public/home" method="post"
+            target="_blank">
+            <font color="#000000">
+                <br><br><br><br><br>
+                <table>
+                    <tr>
+                        <td><b>ROLL NO:</b></td>
+                        <td><input class="options" type="text" name="ROLLNO" required></td>
+                    </tr>
+                    <tr>
+                        <td><b>DEPARTMENT:</b></td>
+                        <td><input class="options" type="text" name="DEPT" required></td>
+                    </tr>
+                    <tr>
+                        <td><b>YEAR OF STUDY:</b></td>
+                        <td><input class="options" type="text" name="YOF" required></td>
+                    </tr>
+                    <tr>
+                        <td><b>SEMESTER:</b></td>
+                        <td><input class="options" type="text" name="SEM" required></td>
+                    </tr>
+                   
+                    <tr>
+                        <td><b>Number of Subjects:</b></td>
+                        <td><input id="numSubjects" type="number" min="1" class="options"
+                                placeholder="Enter Number of Subjects" required></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="subjectFields"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Amount:</b></td>
+                        <td><input id="totalAmount" type="text" readonly class="options"></td>
+                    </tr>
+                </table>
+                <input type="reset" class="button" value="Cancel">&nbsp;
+                <input type="submit" class="button" value="Submit" id="submitBtn"><br><br>
+                <input type="button" class="button button1 button-disabled" value="Verify payment"
+                    onclick="verifyPayment()" disabled>
+            </font>
+        </form>
+        <div id="selectedSubjectDiv" class="selectedOption"></div>
+    </div>
+    <script>
+        // Function to dynamically add subject fields and calculate the total amount
+        function updateTotalAmount() {
+            var numSubjectsInput = document.getElementById("numSubjects");
+            var subjectFields = document.getElementById("subjectFields");
+            var totalAmountInput = document.getElementById("totalAmount");
+            var selectedSubjectDiv = document.getElementById("selectedSubjectDiv");
+
+            // Clear existing subject fields
+            subjectFields.innerHTML = "";
+
+            // Get the number of subjects
+            var numSubjects = parseInt(numSubjectsInput.value, 10);
+
+            // Validate numSubjects
+            if (isNaN(numSubjects) || numSubjects < 1) {
+                totalAmountInput.value = "";
+                return;
+            }
+
+            // Initialize total amount
+            var totalAmount = 0;
+
+            // Keep track of selected subjects
+            var selectedSubjects = [];
+
+            // Create dropdowns for each subject
+            for (var i = 1; i <= numSubjects; i++) {
+                var subjectNameLabel = document.createElement("label");
+                subjectNameLabel.textContent = "Subject " + i + ":";
+
+                var subjectDropdown = document.createElement("select");
+                subjectDropdown.className = "options";
+                subjectDropdown.name = "subjectName" + i;
+
+                // Add options for subjects
+                var subjects = ["", "M1", "M2", "AP", "BEE", "EC", "PPS1", "PPS2"];
+                for (var j = 0; j < subjects.length; j++) {
+                    var option = document.createElement("option");
+                    option.value = subjects[j];
+                    option.text = subjects[j];
+                    subjectDropdown.add(option);
+                }
+
+                var br = document.createElement("br");
+
+                subjectDropdown.addEventListener("change", function () {
+                    // Update the selected subject name in the corresponding div
+                    selectedSubjects = [];
+                    for (var k = 1; k <= numSubjects; k++) {
+                        var dropdown = document.getElementsByName("subjectName" + k)[0];
+                        if (dropdown.value !== "") {
+                            selectedSubjects.push(dropdown.value);
+                        }
+                    }
+
+                    selectedSubjectDiv.textContent = "Selected Subjects: " + selectedSubjects.join(", ");
+                });
+
+                subjectFields.appendChild(subjectNameLabel);
+                subjectFields.appendChild(subjectDropdown);
+                subjectFields.appendChild(br);
+
+                // Calculate and display subject price
+                totalAmount += 1200;
+
+                // Div to display selected option
+                var selectedOptionDiv = document.createElement("div");
+                selectedOptionDiv.className = "selectedOption";
+                selectedOptionDiv.textContent = "Price for Subject " + i + ": 1200";
+                subjectFields.appendChild(selectedOptionDiv);
+            }
+
+            // Display the total amount
+            totalAmountInput.value = totalAmount.toFixed(2);
+        }
+
+        // Add an event listener to update subject fields and total amount when the number of subjects changes
+        var numSubjectsInput = document.getElementById("numSubjects");
+        numSubjectsInput.addEventListener("input", updateTotalAmount);
+
+        // Initial call to set up the subject fields and total amount
+        updateTotalAmount();
+
+        function verifyPayment() {
+            window.location.href = 'Payment1.html';
+        }
+
+        // Function to enable Verify Payment button after form submission
+        document.getElementById("paymentForm").addEventListener("submit", function (event) {
+            document.querySelector(".button1").classList.remove("button-disabled");
+            document.querySelector(".button1").removeAttribute("disabled");
+        });
+    </script>
+</body>
+
+</html>

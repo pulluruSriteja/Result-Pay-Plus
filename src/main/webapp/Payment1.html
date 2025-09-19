@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Login Form</title>
+  <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap'><link rel="stylesheet" href="./paymentstyle.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="wrapper">
+  <div class="login_box">
+    <div class="login-header">
+      <span>Enter payment details</span>
+    </div>
+
+    <div class="input_box">
+      <form action="PaymentServlet" method="post"> 
+      <input type="text" id="user" class="input-field"  name="Rollno" required>
+      <label for="user" class="label">Roll Number</label>
+    </div>
+
+    <div class="input_box">
+      <input type="text" id="user" class="input-field"  name="Subjects" required>
+      <label for="pass" class="label">Subjects</label>
+    </div>
+
+    <div class="input_box">
+      <input type="text" id="user" class="input-field"  name="Query" required>
+      <label for="pass" class="label">Query</label>
+    </div>
+
+    <div class="input_box">
+      <input type="text" id="user" class="input-field"  name="Transaction id" required>
+      <label for="pass" class="label">Transaction ID</label>
+    </div>
+
+    <div class="input_box">
+      <input type="submit" class="input-submit" value="Submit">
+    </div>
+</form>
+  </div>
+</div>
+<!-- partial -->
+  
+</body>
+</html>
